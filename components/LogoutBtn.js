@@ -3,10 +3,10 @@ import Link from "next/link";
 import React from "react";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 
-const LogoutBtn = () => {
+const LogoutBtn = ({ className }) => {
   return (
     <div
-      className="flex items-center mb-10 text-sm text-red-600 font-medium"
+      className={`${className} flex items-center text-sm text-red-600 font-medium`}
       onClick={() => signOut()}
     >
       <div className="mr-1 text-xl">
