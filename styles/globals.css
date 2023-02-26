@@ -36,3 +36,28 @@ a {
     background: black;
   }
 }
+
+.bg-index {
+  /* background: rgb(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.0578606442577031) 90%,
+    rgba(0, 0, 0, 0) 100%
+  ); */
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.48923319327731096) 59%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+.loader {
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+}
