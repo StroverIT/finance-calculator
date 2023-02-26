@@ -6,24 +6,38 @@ import { HiX } from "react-icons/hi";
 
 import { getSession, signOut } from "next-auth/react";
 
-const FinanceCalc = ({ text, totalSums, type, session, typeFinance }) => {
+const FinanceCalc = ({
+  text,
+  totalSums,
+  type,
+  session,
+  typeFinance,
+  date,
+  route = "/api/finance",
+  removeRoute = "/api/removeFinance",
+}) => {
   const router = useRouter();
   const [priceInput, setPriceInput] = useState("");
   const [reasonInput, setReasonInput] = useState("");
 
   const submitHandler = async () => {
-    const res = await fetch("/api/finance", {
+    const body = {
+      type,
+      price: priceInput,
+      reason: reasonInput,
+      typeFinance,
+    };
+    if (route == "/api/report") {
+      body.date = date;
+    }
+    const res = await fetch(route, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        type,
-        price: priceInput,
-        reason: reasonInput,
-        typeFinance,
-      }),
+      body: JSON.stringify(body),
     });
+
     const resData = await res.json();
     if (resData.message) {
       toastSuccess(resData.message);
@@ -33,7 +47,7 @@ const FinanceCalc = ({ text, totalSums, type, session, typeFinance }) => {
     router.replace(router.asPath);
   };
   const removeHandler = async (stateId) => {
-    const res = await fetch("/api/removeFinance", {
+    const res = await fetch(removeRoute, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
