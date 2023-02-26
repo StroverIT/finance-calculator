@@ -7,6 +7,7 @@ import User from "../../../db/models/User";
 import MonthlyFinance from "../../../db/models/MonthlyFinance";
 import DailyFinance from "../../../db/models/DailyFinance";
 import Dept from "../../../db/models/Dept";
+import Report from "../../../db/models/Report";
 
 import { hash } from "bcryptjs";
 
@@ -38,6 +39,7 @@ async function handler(req, res) {
     const monthlyFinance = await MonthlyFinance.create({});
     const dailyFinance = await DailyFinance.create({});
     const dept = await Dept.create({});
+    const report = await Report.create({});
 
     await User.create({
       email,
@@ -45,6 +47,7 @@ async function handler(req, res) {
       monthlyFinance: monthlyFinance._id,
       dailyFinance: dailyFinance._id,
       dept: dept._id,
+      report: report._id,
     });
 
     return res

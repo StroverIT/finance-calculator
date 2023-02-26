@@ -11,6 +11,7 @@ import { compare } from "bcryptjs";
 import MonthlyFinance from "../../../db/models/MonthlyFinance";
 import DailyFinance from "../../../db/models/DailyFinance";
 import Dept from "../../../db/models/Dept";
+import Report from "../../../db/models/Report";
 
 export default NextAuth({
   //Configure JWT
@@ -76,13 +77,14 @@ export default NextAuth({
           const monthlyFinance = await MonthlyFinance.create({});
           const dailyFinance = await DailyFinance.create({});
           const dept = await Dept.create({});
+          const report = await Report.create({});
 
           if (!result) {
             await User.create({
               monthlyFinance: monthlyFinance._id,
               dailyFinance: dailyFinance._id,
               dept: dept._id,
-
+              report: report._id,
               name: profile.name,
               email: profile.email,
 
