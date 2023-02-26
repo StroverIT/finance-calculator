@@ -5,6 +5,7 @@ import { connectMongo } from "../../db/connectDb";
 import User from "../../db/models/User";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { getSession, signOut } from "next-auth/react";
+import Head from "next/head";
 const FinanceInput = ({ data, session }) => {
   const [totalSum, setTotalSum] = useState(0);
 
@@ -24,39 +25,50 @@ const FinanceInput = ({ data, session }) => {
   }, [data]);
 
   return (
-    <main className=" flex-col h-screen my-auto flex-center">
-      <div className="bg-white p-10  rounded-md shadow-2xl flex-center flex-col">
-        <div className="flex items-center mb-10 text-sm">
-          <div className="mr-1 text-xl">
-            <BsBoxArrowInLeft />
+    <>
+      <Head>
+        <title>Daily expenses</title>
+        <meta
+          name="description"
+          content="Your personal finance statement app"
+        />
+      </Head>
+      <main className=" flex-col h-screen my-auto flex-center">
+        <div className="bg-white p-10  rounded-md shadow-2xl flex-center flex-col">
+          <div className="flex items-center mb-10 text-sm">
+            <div className="mr-1 text-xl">
+              <BsBoxArrowInLeft />
+            </div>
+            <Link href="/account" className="text-lg">
+              Назад
+            </Link>
           </div>
-          <Link href="/account" className="text-lg">
-            Назад
-          </Link>
+          <div className="mb-10 text-5xl font-bold text-blue">
+            Дневни сметки
+          </div>
+          <div className="grid sm:grid-cols-2 justify-center gap-x-28 ">
+            <FinanceCalc
+              text={financeData.income.text}
+              totalSums={financeData.income.totalSums}
+              type="income"
+              session={session}
+              typeFinance={typeFinance}
+            />
+            <FinanceCalc
+              text={financeData.expense.text}
+              totalSums={financeData.expense.totalSums}
+              type="expense"
+              session={session}
+              typeFinance={typeFinance}
+            />
+          </div>
+          <div className="mt-10 text-2xl text-center">
+            Останали пари за деня:{" "}
+            <span className="pl-1 font-semibold">{totalSum}</span>
+          </div>
         </div>
-        <div className="mb-10 text-5xl font-bold text-blue">Дневни сметки</div>
-        <div className="grid sm:grid-cols-2 justify-center gap-x-28 ">
-          <FinanceCalc
-            text={financeData.income.text}
-            totalSums={financeData.income.totalSums}
-            type="income"
-            session={session}
-            typeFinance={typeFinance}
-          />
-          <FinanceCalc
-            text={financeData.expense.text}
-            totalSums={financeData.expense.totalSums}
-            type="expense"
-            session={session}
-            typeFinance={typeFinance}
-          />
-        </div>
-        <div className="mt-10 text-2xl text-center">
-          Останали пари за деня:{" "}
-          <span className="pl-1 font-semibold">{totalSum}</span>
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 

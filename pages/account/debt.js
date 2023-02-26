@@ -6,6 +6,7 @@ import User from "../../db/models/User";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { getSession } from "next-auth/react";
 import DeptCalc from "../../components/DeptCalc";
+import Head from "next/head";
 
 const FinanceInput = ({ data, session }) => {
   const [totalSum, setTotalSum] = useState(0);
@@ -17,6 +18,13 @@ const FinanceInput = ({ data, session }) => {
   }, [data]);
   return (
     <>
+      <Head>
+        <title>Debt</title>
+        <meta
+          name="description"
+          content="Your personal finance statement app"
+        />
+      </Head>
       <main className="container flex-col h-screen my-auto flex-center">
         <div className="bg-white p-10 rounded-md shadow-2xl flex-center flex-col ">
           <div className="flex items-center mb-10 text-sm">
