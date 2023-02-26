@@ -5,7 +5,7 @@ import { toastSuccess } from "./notifications/Toast";
 import { HiX } from "react-icons/hi";
 import DatePickerComp from "./DatePickerComp";
 
-const DeptCalc = ({ text, totalSums, type, session }) => {
+const DeptCalc = ({ text, totalSums, session }) => {
   const router = useRouter();
   const [priceInput, setPriceInput] = useState("");
   const [reasonInput, setReasonInput] = useState("");
@@ -20,7 +20,6 @@ const DeptCalc = ({ text, totalSums, type, session }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        type,
         price: priceInput,
         reason: reasonInput,
         person: personInput,
@@ -28,6 +27,8 @@ const DeptCalc = ({ text, totalSums, type, session }) => {
       }),
     });
     const resData = await res.json();
+    console.log(resData);
+
     if (resData.message) {
       toastSuccess(resData.message);
     }
@@ -36,15 +37,13 @@ const DeptCalc = ({ text, totalSums, type, session }) => {
     router.replace(router.asPath);
   };
   const removeHandler = async (stateId) => {
-    const res = await fetch("/api/removeFinance", {
+    const res = await fetch("/api/removeDept", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        type,
         stateId,
-        email: session.user.email,
       }),
     });
     const resData = await res.json();
@@ -65,16 +64,17 @@ const DeptCalc = ({ text, totalSums, type, session }) => {
           setInput={(e) => setPriceInput(e.target.value)}
           isBtn={false}
         />
+
         <ColorInput
           labelName="Причина:"
-          input={personInput}
-          setInput={(e) => setPersonInput(e.target.value)}
+          input={reasonInput}
+          setInput={(e) => setReasonInput(e.target.value)}
           isBtn={false}
         />
         <ColorInput
           labelName="На кого:"
-          input={reasonInput}
-          setInput={(e) => setReasonInput(e.target.value)}
+          input={personInput}
+          setInput={(e) => setPersonInput(e.target.value)}
           isBtn={false}
         />
         <div>
@@ -97,7 +97,7 @@ const DeptCalc = ({ text, totalSums, type, session }) => {
         {totalSums.map((sum, index) => {
           return (
             <div key={sum._id} className="flex items-center text-lg">
-              {sum.price} - {sum.reason}
+              {sum.price} - {sum.reason} - {sum.person} - {sum.date}
               <div
                 className="mt-1 ml-auto text-xl text-red-500 cursor-pointer "
                 onClick={() => removeHandler(sum._id)}
