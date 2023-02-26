@@ -34,6 +34,7 @@ const DeptCalc = ({ text, totalSums, session }) => {
     }
     setPriceInput("");
     setReasonInput("");
+    setPersonInput("");
     router.replace(router.asPath);
   };
   const removeHandler = async (stateId) => {
@@ -57,7 +58,7 @@ const DeptCalc = ({ text, totalSums, session }) => {
   }, [dateInput]);
   return (
     <div>
-      <div className="grid grid-cols-2 gap-x-5">
+      <div className="grid grid-cols-2 gap-x-5 ">
         <ColorInput
           labelName="Сума:"
           input={priceInput}
@@ -96,8 +97,12 @@ const DeptCalc = ({ text, totalSums, session }) => {
       <div className={`mt-10 `}>
         {totalSums.map((sum, index) => {
           return (
-            <div key={sum._id} className="flex items-center text-lg">
-              {sum.price} - {sum.reason} - {sum.person} - {sum.date}
+            <div key={sum._id} className="flex items-center text-lg ">
+              {sum.price} -
+              <span className="break-all whitespace-pre-line max-w-sm px-1">
+                {sum.reason}
+              </span>
+              - {sum.person} - {sum.date}
               <div
                 className="mt-1 ml-auto text-xl text-red-500 cursor-pointer "
                 onClick={() => removeHandler(sum._id)}
