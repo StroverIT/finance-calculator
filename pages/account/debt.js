@@ -26,8 +26,8 @@ const FinanceInput = ({ data, session }) => {
         />
       </Head>
       <main className="container flex-col h-screen my-auto flex-center">
-        <div className="bg-white p-10 rounded-md shadow-2xl flex-center flex-col ">
-          <div className="flex items-center mb-10 text-sm">
+        <div className="flex-col p-10 bg-white rounded-md shadow-2xl flex-center ">
+          <div className="flex items-center text-sm">
             <div className="mr-1 text-lg">
               <BsBoxArrowInLeft />
             </div>

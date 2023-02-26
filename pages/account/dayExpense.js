@@ -33,9 +33,9 @@ const FinanceInput = ({ data, session }) => {
           content="Your personal finance statement app"
         />
       </Head>
-      <main className=" flex-col h-screen my-auto flex-center">
-        <div className="bg-white p-10  rounded-md shadow-2xl flex-center flex-col">
-          <div className="flex items-center mb-10 text-sm">
+      <main className="flex-col h-screen my-auto flex-center">
+        <div className="flex-col p-10 bg-white rounded-md shadow-2xl flex-center">
+          <div className="flex items-center text-sm">
             <div className="mr-1 text-xl">
               <BsBoxArrowInLeft />
             </div>
@@ -46,7 +46,7 @@ const FinanceInput = ({ data, session }) => {
           <div className="mb-10 text-5xl font-bold text-blue">
             Дневни сметки
           </div>
-          <div className="grid sm:grid-cols-2 justify-center gap-x-28 ">
+          <div className="grid justify-center sm:grid-cols-2 gap-x-28 ">
             <FinanceCalc
               text={financeData.income.text}
               totalSums={financeData.income.totalSums}
