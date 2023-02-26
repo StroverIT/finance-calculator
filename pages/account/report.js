@@ -1,27 +1,42 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import FinanceCalc from "../../components/FinanceCalc";
-import { connectMongo } from "../../db/connectDb";
-import User from "../../db/models/User";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 import DatePickerComp from "../../components/DatePickerComp";
+import User from "../../db/models/User";
+import { connectMongo } from "../../db/connectDb";
+import getDate from "../../lib/getDate";
+import { useRouter } from "next/router";
 
-const FinanceInput = ({ data, session }) => {
+const FinanceInput = () => {
+  const route = useRouter();
   const [totalSum, setTotalSum] = useState(0);
+  const [dateInput, setDateInput] = useState(getDate());
 
-  const [dateInput, setDateInput] = useState("");
-
-  const financeData = data.dailyFinance;
-  const typeFinance = "daily";
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const totalExpense = financeData.expense.totalSums.reduce(
-      (x, y) => x + Number(y.price),
-      0
-    );
+    async function getingData() {
+      const res = await fetch("/api/reportGet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: dateInput,
+        }),
+      });
+      const resData = await res.json();
+      setData(resData.data);
+    }
+    getingData();
+  }, [dateInput, route]);
+
+  useEffect(() => {
+    const totalExpense = data.reduce((x, y) => x + Number(y.price), 0);
     setTotalSum(totalExpense);
   }, [data]);
 
@@ -49,11 +64,13 @@ const FinanceInput = ({ data, session }) => {
 
           <div className="grid justify-center mt-10 gap-x-28">
             <FinanceCalc
-              text={financeData.expense.text}
-              totalSums={financeData.expense.totalSums}
+              text="Разход:"
+              totalSums={data}
+              date={dateInput}
               type="expense"
-              session={session}
-              typeFinance={typeFinance}
+              typeFinance="expense"
+              route="/api/report"
+              removeRoute="/api/removeReport"
             />
           </div>
           <div className="mt-10 text-2xl text-center">
@@ -68,7 +85,6 @@ const FinanceInput = ({ data, session }) => {
 
 export default FinanceInput;
 export async function getServerSideProps(context) {
-  const { query } = context;
   const session = await getSession({ req: context.req });
   if (!session) {
     return {
@@ -79,21 +95,21 @@ export async function getServerSideProps(context) {
     };
   }
   let data = {};
+
   try {
     await connectMongo();
 
     const user = await User.findOne({ email: session.user.email }).populate(
-      "dailyFinance"
+      "report"
     );
+
     data = user;
   } catch (e) {
     console.log(e);
   }
+
   return {
-    props: {
-      data: JSON.parse(JSON.stringify(data)),
-      session: JSON.parse(JSON.stringify(session)),
-    }, // will be passed to the page component as props
+    props: { data: JSON.parse(JSON.stringify(data)) }, // will be passed to the page component as props
   };
 }
 // const data = {
