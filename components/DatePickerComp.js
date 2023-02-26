@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DatePicker from "tailwind-datepicker-react";
+import getDate from "../lib/getDate";
 
 const options = {
   title: "Demo Title",
@@ -32,13 +33,7 @@ const options = {
 const DatePickerComp = ({ setDateInput }) => {
   const [show, setShow] = useState(false);
   const handleChange = (selectedDate) => {
-    const newDate = new Date(selectedDate);
-
-    const day = newDate.getDate();
-    const month = newDate.getMonth();
-    const year = newDate.getFullYear();
-
-    const date = `${day}/${month}/${year}`;
+    const date = getDate(selectedDate);
 
     setDateInput(date);
   };
