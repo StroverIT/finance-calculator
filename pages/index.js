@@ -1,42 +1,54 @@
 import Head from "next/head";
-import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import ColorInput from "../components/ColorInput";
-import FinanceInput from "../components/FinanceStatus";
+
+import { toastError } from "../components/notifications/Toast";
+import { signIn, getSession } from "next-auth/react";
+
+import { AiFillFacebook } from "react-icons/ai";
 
 export default function Home() {
-  const [loginInput, setLoginInput] = useState("");
-  const [registerInput, setRegisterInput] = useState("");
+  const router = useRouter();
 
-  const [isLogged, setLogged] = useState(false);
+  const [loginInputs, setLoginInputs] = useState({
+    email: "",
+    password: "",
+  });
+
   const [isFound, setIsFound] = useState(true);
+  const [isLoading, setLoader] = useState(false);
+  const [facebookLoading, setFacebookLoadin] = useState(false);
 
-  const [isRegister, setRegister] = useState(false);
+  const facebookHandler = async (e) => {
+    setFacebookLoadin(true);
 
-  const loginHandler = async () => {
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: loginInput }),
-    });
+    await signIn("facebook");
+
+    setFacebookLoadin(false);
   };
-  const registerHandler = async () => {
-    console.log("registerInput", registerInput);
-    const res = await fetch("/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: registerInput }),
+  async function submitHandler(e) {
+    e.preventDefault();
+    setLoader(true);
+
+    const status = await signIn("credentials", {
+      redirect: false,
+      ...loginInputs,
     });
-    console.log(res);
+    if (status.error) {
+      toastError(status.error);
+      setLoader(false);
+    }
+    router.replace(router.asPath);
+  }
+
+  const inputsHandler = (e) => {
+    setLoginInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
-  let title;
-  if (isRegister) title = "Регистрация";
-  else if (!isRegister) title = "Вход";
-  else title = "Finance calculator";
+
   return (
     <div>
       <Head>
@@ -45,47 +57,74 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container flex-col h-screen flex-center">
-        <div className="mb-10 text-5xl font-bold text-blue">{title}</div>
-
-        {!isLogged && !isRegister && (
-          <>
-            <ColorInput
-              labelName="Име"
-              type="text"
-              state={isFound ? "" : "wrong"}
-              input={loginInput}
-              setInput={(e) => setLoginInput(e.target.value)}
-              onClick={loginHandler}
-            />
+      <main className="container flex-col h-screen flex-center ">
+        <div className="bg-white p-10 rounded-md shadow-2xl">
+          <div className="mb-10 text-5xl font-bold text-blue">Вход</div>
+          <ColorInput
+            labelName="И-мейл"
+            name="email"
+            btnName="Вход"
+            type="email"
+            isBtn={false}
+            state={isFound ? "" : "wrong"}
+            input={loginInputs.email}
+            setInput={inputsHandler}
+          />
+          <ColorInput
+            labelName="Парола"
+            name="password"
+            type="password"
+            btnName="Вход"
+            state={isFound ? "" : "wrong"}
+            isLoading={isLoading}
+            input={loginInputs.password}
+            setInput={inputsHandler}
+            onClick={submitHandler}
+          />
+          <div
+            className="mt-10 underline cursor-pointer"
+            onClick={() => router.push("/register")}
+          >
+            Регистрация
+          </div>
+          <section className="mx-12 mt-12 cursor-pointer">
             <div
-              className="mt-10 underline cursor-pointer"
-              onClick={() => setRegister(true)}
+              className="bg-[#4267b2]  text-white flex px-8 py-2 rounded-md"
+              onClick={facebookHandler}
             >
-              Регистрация
+              <div className="text-3xl ">
+                <AiFillFacebook />
+              </div>
+              <div className="flex items-center justify-center pl-2">
+                {facebookLoading ? (
+                  <div className="loader"></div>
+                ) : (
+                  "Вход с Facebook"
+                )}
+              </div>
             </div>
-          </>
-        )}
-        {!isLogged && isRegister && (
-          <>
-            <ColorInput
-              labelName="Име"
-              type="text"
-              state={isFound ? "" : "wrong"}
-              input={registerInput}
-              setInput={(e) => setRegisterInput(e.target.value)}
-              onClick={registerHandler}
-            />
-            <div
-              className="mt-10 underline cursor-pointer"
-              onClick={() => setRegister(false)}
-            >
-              Вход
-            </div>
-          </>
-        )}
-        {isLogged && <FinanceInput />}
+          </section>
+        </div>
       </main>
     </div>
   );
+}
+export async function getServerSideProps(context) {
+  const { query } = context;
+  const session = await getSession({ req: context.req });
+  const isError = session?.user?.email;
+  if (session && !isError?.includes("error")) {
+    return {
+      redirect: {
+        destination: "/account",
+        permanent: false,
+      },
+    };
+  }
+  if (isError) {
+    query.error = isError;
+  }
+  return {
+    props: { session, query },
+  };
 }
