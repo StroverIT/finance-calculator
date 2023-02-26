@@ -10,15 +10,15 @@ const FinanceInput = ({ data, session }) => {
     <main className="  h-screen my-auto flex-center">
       <div className="py-10 bg-white flex-center px-20 flex-col ">
         <LogoutBtn className=" mb-2" />
-        <div className="mb-10 text-6xl font-bold text-blue">
+        <div className="mb-10 text-2xl md:text-6xl font-bold text-blue">
           Finance Calculator
         </div>
-        <div className="grid grid-cols-3 gap-16 text-2xl mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-5 text-md sm:text-2xl mt-10">
           <button
             className="text-white  flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  w-full sm:w-auto px-7 py-4 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 justify-center"
             onClick={() => router.push("/account/monthExpense")}
           >
-            <div className="relative h-14 w-14 mr-2">
+            <div className="relative h-10 w-10 sm:h-14 sm:w-14 mr-2">
               <Image src="/icons/month.png" alt="month" fill />
             </div>
             Месечни сметки
@@ -27,7 +27,7 @@ const FinanceInput = ({ data, session }) => {
             className="text-white flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 justify-center"
             onClick={() => router.push("/account/dayExpense")}
           >
-            <div className="relative h-12 w-12 mr-2">
+            <div className="relative h-8 w-8 sm:h-14 sm:w-14 mr-2">
               <Image src="/icons/day-and-night.png" alt="month" fill />
             </div>
             Дневни сметки
@@ -36,7 +36,7 @@ const FinanceInput = ({ data, session }) => {
             className="text-white flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800  justify-center"
             onClick={() => router.push("/account/debt")}
           >
-            <span className="pr-1 text-4xl">
+            <span className="pr-1 text-3xl sm:text-4xl">
               <FcDebt />
             </span>
             Дължими суми

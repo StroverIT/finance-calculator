@@ -35,7 +35,7 @@ const FinanceInput = ({ data, session }) => {
           </Link>
         </div>
         <div className="mb-10 text-5xl font-bold text-blue">Дневни сметки</div>
-        <div className="flex justify-center gap-x-28 ">
+        <div className="grid sm:grid-cols-2 justify-center gap-x-28 ">
           <FinanceCalc
             text={financeData.income.text}
             totalSums={financeData.income.totalSums}

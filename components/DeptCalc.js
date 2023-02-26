@@ -58,7 +58,7 @@ const DeptCalc = ({ text, totalSums, session }) => {
   }, [dateInput]);
   return (
     <div>
-      <div className="grid grid-cols-2 gap-x-5 ">
+      <div className="grid md:grid-cols-2 gap-x-5 ">
         <ColorInput
           labelName="Сума:"
           input={priceInput}
