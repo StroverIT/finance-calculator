@@ -19,6 +19,7 @@ const userSchema = new Schema({
   dept: { type: Schema.Types.ObjectId, ref: "Dept" },
   importantDates: { type: Schema.Types.ObjectId, ref: "ImportantDates" },
   plans: { type: Schema.Types.ObjectId, ref: "Plans" },
+  report: { type: Schema.Types.ObjectId, ref: "Report" },
 });
 
 const User = models.User || model("User", userSchema);
