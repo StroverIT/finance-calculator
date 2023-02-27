@@ -39,7 +39,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Login page</title>
+        <title>Forgoten password</title>
         <meta
           name="description"
           content="Your personal finance statement app"
