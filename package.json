@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "googleapis": "^111.0.0",
     "mongoose": "^6.9.2",
     "next": "13.1.6",
     "next-auth": "^4.19.2",
+    "nodemailer": "^6.9.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
