@@ -89,10 +89,12 @@ const FinanceCalc = ({
           Добави
         </button>
       </div>
-      <div className={`mt-10 `}>
+
+      <div className={`mb-10 mt-2 `}>
+        <div className="w-full h-[1px] bg-black mt-3"></div>
         {totalSums.map((sum, index) => {
           return (
-            <div key={sum._id} className="flex items-center text-lg">
+            <div key={sum._id} className="flex items-center pt-2 text-lg">
               {sum.price} - {sum.reason}
               <div
                 className="mt-1 ml-auto text-xl text-red-500 cursor-pointer "
