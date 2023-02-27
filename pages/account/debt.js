@@ -33,7 +33,9 @@ const FinanceInput = ({ data, session }) => {
             </div>
             <Link href="/account">Назад</Link>
           </div>
-          <div className="mb-10 text-5xl font-bold text-blue">Дължими суми</div>
+          <div className="mb-10 text-3xl font-bold sm:text-5xl text-blue">
+            Дължими суми
+          </div>
           <div className="flex justify-center gap-x-28 ">
             <DeptCalc totalSums={financeData} session={session} />
           </div>
