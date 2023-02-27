@@ -61,7 +61,7 @@ export default function Home() {
       </Head>
 
       <main className="container flex-col h-screen flex-center ">
-        <div className="bg-white p-10 rounded-md shadow-2xl">
+        <div className="p-10 bg-white rounded-md shadow-2xl">
           <div className="mb-10 text-5xl font-bold text-blue">Вход</div>
           <ColorInput
             labelName="И-мейл"
@@ -84,11 +84,19 @@ export default function Home() {
             setInput={inputsHandler}
             onClick={submitHandler}
           />
-          <div
-            className="mt-10 underline cursor-pointer"
-            onClick={() => router.push("/register")}
-          >
-            Регистрация
+          <div className="grid mt-10 sm:grid-cols-2 gap-y-2">
+            <div
+              className="underline cursor-pointer "
+              onClick={() => router.push("/register")}
+            >
+              Регистрация
+            </div>
+            <div
+              className="underline cursor-pointer "
+              onClick={() => router.push("/forgotenPassword")}
+            >
+              Забравена парола
+            </div>
           </div>
           <section className="mx-12 mt-12 cursor-pointer">
             <div
