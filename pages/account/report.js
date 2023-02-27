@@ -59,7 +59,9 @@ const FinanceInput = () => {
               Назад
             </Link>
           </div>
-          <div className="mb-10 text-5xl font-bold text-blue">Дневен отчет</div>
+          <div className="mb-10 text-3xl font-bold sm:text-5xl text-blue">
+            Дневен отчет
+          </div>
           <DatePickerComp setDateInput={setDateInput} />
 
           <div className="grid justify-center mt-10 gap-x-28">
