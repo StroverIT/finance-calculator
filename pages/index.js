@@ -98,7 +98,7 @@ export default function Home() {
               Забравена парола
             </div>
           </div>
-          <section className="mx-12 mt-12 cursor-pointer">
+          <section className="mt-12 cursor-pointer md:mx-12">
             <div
               className="bg-[#4267b2]  text-white flex px-8 py-2 rounded-md"
               onClick={facebookHandler}
