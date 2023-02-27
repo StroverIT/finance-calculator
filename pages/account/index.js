@@ -13,11 +13,9 @@ const FinanceInput = ({ data, session }) => {
         <title>Your personal finance</title>
       </Head>
       <main className="h-screen my-auto flex-center">
-        <div className="flex-col px-20 py-10 bg-white flex-center ">
+        <div className="flex-col py-10 bg-white max-sm:w-full md:px-20 flex-center ">
           <LogoutBtn className="mb-2 " />
-          <div className="mb-10 text-2xl font-bold md:text-6xl text-blue">
-            Finance Calculator
-          </div>
+          <div className="mb-10 text-2xl font-bold md:text-6xl text-blue"></div>
           <div className="grid grid-cols-1 mt-10 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-5 text-md sm:text-2xl">
             <button
               className="flex items-center justify-center w-full py-4 font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 sm:w-auto px-7 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
