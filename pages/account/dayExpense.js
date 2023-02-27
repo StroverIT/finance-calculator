@@ -34,7 +34,7 @@ const FinanceInput = ({ data, session }) => {
         />
       </Head>
       <main className="flex-col h-screen my-auto flex-center">
-        <div className="flex-col p-10 bg-white rounded-md shadow-2xl flex-center">
+        <div className="flex-col p-10 bg-white rounded-md shadow-2xl max-sm:pt-10 flex-center">
           <div className="flex items-center text-sm">
             <div className="mr-1 text-xl">
               <BsBoxArrowInLeft />
@@ -43,7 +43,7 @@ const FinanceInput = ({ data, session }) => {
               Назад
             </Link>
           </div>
-          <div className="mb-10 text-5xl font-bold text-blue">
+          <div className="mb-10 text-3xl font-bold sm:text-5xl ">
             Дневни сметки
           </div>
           <div className="grid justify-center sm:grid-cols-2 gap-x-28 ">
