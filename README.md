@@ -16,7 +16,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Usage
 
-#Tracking of:
+### Tracking of:
 
 - Daily expenses
 - Debt. How much, when to return it, to who and what is the reason
