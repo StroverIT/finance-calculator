@@ -6,10 +6,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### Tracking of:
 
-- Daily expenses
+- Daily expenses report
 - Debt. How much, when to return it, to who and what is the reason
-- Monthly expenses
-- Daily expenses
+- Monthly income and expenses
+- Daily income and expenses
 
 ## Getting Started
 
