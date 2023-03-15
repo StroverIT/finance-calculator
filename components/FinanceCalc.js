@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import ColorInput from "./ColorInput";
-import { toastSuccess } from "./notifications/Toast";
+import { toastError, toastSuccess } from "./notifications/Toast";
 import { HiX } from "react-icons/hi";
 
 import { getSession, signOut } from "next-auth/react";
@@ -42,6 +42,9 @@ const FinanceCalc = ({
     if (resData.message) {
       toastSuccess(resData.message);
     }
+    if (resData.error) {
+      toastError(resData.error);
+    }
     setPriceInput("");
     setReasonInput("");
     router.replace(router.asPath);
@@ -58,11 +61,13 @@ const FinanceCalc = ({
         typeFinance,
       }),
     });
+
     const resData = await res.json();
+
     if (resData.message) {
       toastSuccess(resData.message);
     }
-    router.replace(router.asPath);
+    router.push({ pathname: router.asPath }, router.asPath, { scroll: false });
   };
   return (
     <div>
