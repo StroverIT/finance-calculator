@@ -11,34 +11,43 @@ import { connectMongo } from "../../db/connectDb";
 import getDate from "../../lib/getDate";
 import { useRouter } from "next/router";
 
-const FinanceInput = () => {
+const FinanceInput = ({ data, session }) => {
   const route = useRouter();
   const [totalSum, setTotalSum] = useState(0);
   const [dateInput, setDateInput] = useState(getDate());
 
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
+
+  const financeData = data.report;
+  const typeFinance = "report";
 
   useEffect(() => {
-    async function getingData() {
-      const res = await fetch("/api/reportGet", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          date: dateInput,
-        }),
-      });
-      const resData = await res.json();
-      setData(resData.data);
-    }
-    getingData();
-  }, [dateInput, route]);
-
-  useEffect(() => {
-    const totalExpense = data.reduce((x, y) => x + Number(y.price), 0);
-    setTotalSum(totalExpense);
+    const totalIncome = financeData.income.totalSums.reduce(
+      (x, y) => x + Number(y.price),
+      0
+    );
+    const totalExpense = financeData.expense.totalSums.reduce(
+      (x, y) => x + Number(y.price),
+      0
+    );
+    setTotalSum(totalIncome - totalExpense);
   }, [data]);
+  // useEffect(() => {
+  //   async function getingData() {
+  //     const res = await fetch("/api/reportGet", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         date: dateInput,
+  //       }),
+  //     });
+  //     const resData = await res.json();
+  //     setData(resData.data);
+  //   }
+  //   getingData();
+  // }, [dateInput, route]);
 
   return (
     <>
@@ -66,11 +75,22 @@ const FinanceInput = () => {
 
           <div className="grid justify-center mt-10 gap-x-28">
             <FinanceCalc
-              text="Разход:"
-              totalSums={data}
+              text="Приход:"
+              totalSums={financeData.income.totalSums}
               date={dateInput}
+              type="income"
+              typeFinance={typeFinance}
+              session={session}
+              route="/api/report"
+              removeRoute="/api/removeReport"
+            />
+            <FinanceCalc
+              text="Разход:"
+              totalSums={financeData.expense.totalSums}
+              date={dateInput}
+              session={session}
               type="expense"
-              typeFinance="expense"
+              typeFinance={typeFinance}
               route="/api/report"
               removeRoute="/api/removeReport"
             />
@@ -104,14 +124,17 @@ export async function getServerSideProps(context) {
     const user = await User.findOne({ email: session.user.email }).populate(
       "report"
     );
-
+    console.log(user);
     data = user;
   } catch (e) {
     console.log(e);
   }
 
   return {
-    props: { data: JSON.parse(JSON.stringify(data)) }, // will be passed to the page component as props
+    props: {
+      data: JSON.parse(JSON.stringify(data)),
+      session: JSON.parse(JSON.stringify(session)),
+    }, // will be passed to the page component as props
   };
 }
 // const data = {
