@@ -56,6 +56,8 @@ const FinanceCalc = ({
     setLoading(false);
   };
   const removeHandler = async (stateId) => {
+    setLoading(true);
+
     const res = await fetch(removeRoute, {
       method: "POST",
       headers: {
@@ -78,6 +80,7 @@ const FinanceCalc = ({
     }
     if (resData.error) {
     }
+    setLoading(false);
   };
   return (
     <div>
