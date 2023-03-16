@@ -22,7 +22,8 @@ const FinanceCalc = ({
   const [isLoading, setLoading] = useState(false);
 
   const submitHandler = async () => {
-    setLoading(false);
+    setLoading(true);
+
     const body = {
       type,
       price: priceInput,
@@ -52,8 +53,7 @@ const FinanceCalc = ({
     }
     setPriceInput("");
     setReasonInput("");
-
-    setLoading(true);
+    setLoading(false);
   };
   const removeHandler = async (stateId) => {
     const res = await fetch(removeRoute, {
