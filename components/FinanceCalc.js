@@ -19,10 +19,16 @@ const FinanceCalc = ({
   const router = useRouter();
   const [priceInput, setPriceInput] = useState("");
   const [reasonInput, setReasonInput] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState({
+    add: false,
+    remove: false,
+  });
 
   const submitHandler = async () => {
-    setLoading(true);
+    setLoading((prevState) => ({
+      ...prevState,
+      add: true,
+    }));
 
     const body = {
       type,
@@ -53,10 +59,16 @@ const FinanceCalc = ({
     }
     setPriceInput("");
     setReasonInput("");
-    setLoading(false);
+    setLoading((prevState) => ({
+      ...prevState,
+      add: false,
+    }));
   };
   const removeHandler = async (stateId) => {
-    setLoading(true);
+    setLoading((prevState) => ({
+      ...prevState,
+      remove: true,
+    }));
 
     const res = await fetch(removeRoute, {
       method: "POST",
@@ -81,7 +93,10 @@ const FinanceCalc = ({
     if (resData.error) {
       toastError(resData.error);
     }
-    setLoading(false);
+    setLoading((prevState) => ({
+      ...prevState,
+      remove: false,
+    }));
   };
   return (
     <div>
@@ -106,7 +121,7 @@ const FinanceCalc = ({
           onClick={submitHandler}
         >
           <div className="flex-center">
-            {isLoading ? <div className="loader"></div> : "Добави"}
+            {isLoading.add ? <div className="loader"></div> : "Добави"}
           </div>
         </button>
       </div>
@@ -117,12 +132,16 @@ const FinanceCalc = ({
           return (
             <div key={sum._id} className="flex items-center pt-2 text-lg">
               {sum.price} - {sum.reason}
-              <div
-                className="mt-1 ml-auto text-xl text-red-500 cursor-pointer "
-                onClick={() => removeHandler(sum._id)}
-              >
-                <HiX />
-              </div>
+              {isLoading.remove ? (
+                <div className="ml-auto loader"></div>
+              ) : (
+                <div
+                  className="mt-1 ml-auto text-xl text-red-500 cursor-pointer "
+                  onClick={() => removeHandler(sum._id)}
+                >
+                  <HiX />
+                </div>
+              )}
             </div>
           );
         })}
