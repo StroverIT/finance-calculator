@@ -100,19 +100,21 @@ export default function Home() {
           </div>
           <section className="mt-12 cursor-pointer md:mx-12">
             <div
-              className="bg-[#4267b2]  text-white flex px-8 py-2 rounded-md"
+              className="bg-[#4267b2]  text-white  px-8 py-2 rounded-md flex-center"
               onClick={facebookHandler}
             >
-              <div className="text-3xl ">
-                <AiFillFacebook />
-              </div>
-              <div className="flex items-center justify-center pl-2">
-                {facebookLoading ? (
-                  <div className="loader"></div>
-                ) : (
-                  "Вход с Facebook"
-                )}
-              </div>
+              {facebookLoading ? (
+                <div className="loader"> </div>
+              ) : (
+                <>
+                  <div className="text-3xl ">
+                    <AiFillFacebook />
+                  </div>
+                  <div className="flex items-center justify-center pl-2">
+                    Вход с Facebook
+                  </div>
+                </>
+              )}
             </div>
           </section>
         </div>

@@ -19,8 +19,10 @@ const FinanceCalc = ({
   const router = useRouter();
   const [priceInput, setPriceInput] = useState("");
   const [reasonInput, setReasonInput] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   const submitHandler = async () => {
+    setLoading(false);
     const body = {
       type,
       price: priceInput,
@@ -41,13 +43,17 @@ const FinanceCalc = ({
     const resData = await res.json();
     if (resData.message) {
       toastSuccess(resData.message);
+      router.push({ pathname: router.asPath }, router.asPath, {
+        scroll: false,
+      });
     }
     if (resData.error) {
       toastError(resData.error);
     }
     setPriceInput("");
     setReasonInput("");
-    router.replace(router.asPath);
+
+    setLoading(true);
   };
   const removeHandler = async (stateId) => {
     const res = await fetch(removeRoute, {
@@ -66,8 +72,12 @@ const FinanceCalc = ({
 
     if (resData.message) {
       toastSuccess(resData.message);
+      router.push({ pathname: router.asPath }, router.asPath, {
+        scroll: false,
+      });
     }
-    router.push({ pathname: router.asPath }, router.asPath, { scroll: false });
+    if (resData.error) {
+    }
   };
   return (
     <div>
@@ -91,7 +101,9 @@ const FinanceCalc = ({
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           onClick={submitHandler}
         >
-          Добави
+          <div className="flex-center">
+            {isLoading ? <div className="loader"></div> : "Добави"}
+          </div>
         </button>
       </div>
 
