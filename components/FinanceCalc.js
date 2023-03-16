@@ -79,6 +79,7 @@ const FinanceCalc = ({
       });
     }
     if (resData.error) {
+      toastError(resData.error);
     }
     setLoading(false);
   };
