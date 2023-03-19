@@ -20,6 +20,7 @@ const userSchema = new Schema({
   importantDates: { type: Schema.Types.ObjectId, ref: "ImportantDates" },
   plans: { type: Schema.Types.ObjectId, ref: "Plans" },
   report: { type: Schema.Types.ObjectId, ref: "Report" },
+  budget: Number,
 });
 
 const User = models.User || model("User", userSchema);
