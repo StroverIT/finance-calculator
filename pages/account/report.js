@@ -124,7 +124,6 @@ export async function getServerSideProps(context) {
     const user = await User.findOne({ email: session.user.email }).populate(
       "report"
     );
-    console.log(user);
     data = user;
   } catch (e) {
     console.log(e);

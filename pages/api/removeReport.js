@@ -10,21 +10,20 @@ import getTokenFn from "../../lib/getToken";
 
 async function handler(req, res) {
   //Only POST mothod is accepted
-  if (req.method === "POST") {
-    //Getting email and password from body
+  try {
     const { stateId, type, typeFinance } = req.body;
 
     //Connect with database
     await connectMongo();
     //Check existing
     const token = await getTokenFn(req);
-
+    console.log("vliza");
     const user = await User.findOne({ email: token.email });
     let reportId = user.report;
 
     await Report.updateOne(
-      { _id: reportId },
-      { $pull: { totalSums: { _id: ObjectId(stateId) } } }
+      { _id: new ObjectId(reportId) },
+      { $pull: { [`${type}.totalSums`]: { _id: ObjectId(stateId) } } }
     );
 
     //Send error response if duplicate user is found
@@ -33,11 +32,15 @@ async function handler(req, res) {
       isErr: false,
       _id: user._id,
     });
-  } else {
-    //Response for other than POST method
+    //Getting email and password from body
+  } catch (e) {
     mongoose.connection.close();
 
-    res.status(500).json({ message: "Нещо се обърка..." });
+    if (e) {
+      console.log(e);
+    }
+    return res.json({ error: e });
+    //Response for other than POST method
   }
 }
 
