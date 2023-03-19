@@ -22,10 +22,9 @@ const FinanceInput = ({ data, session }) => {
   const typeFinance = "report";
 
   useEffect(() => {
-    const totalIncome = financeData.income.totalSums.reduce(
-      (x, y) => x + Number(y.price),
-      0
-    );
+    const totalIncome =
+      financeData.income.totalSums.reduce((x, y) => x + Number(y.price), 0) +
+      data.budget;
     const totalExpense = financeData.expense.totalSums.reduce(
       (x, y) => x + Number(y.price),
       0
@@ -58,7 +57,7 @@ const FinanceInput = ({ data, session }) => {
           content="Your personal finance statement app"
         />
       </Head>
-      <main className="flex-col h-screen my-auto flex-center">
+      <main className="flex-col min-h-screen my-auto flex-center">
         <div className="flex-col p-10 bg-white rounded-md shadow-2xl flex-center">
           <div className="flex items-center text-sm">
             <div className="mr-1 text-xl">
@@ -72,8 +71,11 @@ const FinanceInput = ({ data, session }) => {
             Дневен отчет
           </div>
           <DatePickerComp setDateInput={setDateInput} />
-
-          <div className="grid justify-center mt-10 gap-x-28">
+          <div className="mt-10 text-2xl text-center">
+            Дневна сметка:{" "}
+            <span className="pl-1 font-semibold">{totalSum.toFixed(2)}</span>
+          </div>
+          <div className="grid justify-center mt-10 gap-x-28 md:grid-cols-2">
             <FinanceCalc
               text="Приход:"
               totalSums={financeData.income.totalSums}
@@ -94,10 +96,6 @@ const FinanceInput = ({ data, session }) => {
               route="/api/report"
               removeRoute="/api/removeReport"
             />
-          </div>
-          <div className="mt-10 text-2xl text-center">
-            Похарчени пари за деня:{" "}
-            <span className="pl-1 font-semibold">{totalSum}</span>
           </div>
         </div>
       </main>

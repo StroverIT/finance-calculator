@@ -10,7 +10,6 @@ const FinanceCalc = ({
   text,
   totalSums,
   type,
-  session,
   typeFinance,
   date,
   route = "/api/finance",
@@ -102,19 +101,21 @@ const FinanceCalc = ({
     <div>
       <h1 className="mb-2 text-xl font-bold">{text} </h1>
 
-      <div className="grid grid-cols-2 gap-x-5">
+      <div className={`grid ${type != "budget" && "grid-cols-2"} gap-x-5 `}>
         <ColorInput
           labelName="Сума:"
           input={priceInput}
           setInput={(e) => setPriceInput(e.target.value)}
           isBtn={false}
         />
-        <ColorInput
-          labelName="Причина:"
-          input={reasonInput}
-          setInput={(e) => setReasonInput(e.target.value)}
-          isBtn={false}
-        />
+        {type != "budget" && (
+          <ColorInput
+            labelName="Причина:"
+            input={reasonInput}
+            setInput={(e) => setReasonInput(e.target.value)}
+            isBtn={false}
+          />
+        )}
         <button
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

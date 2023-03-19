@@ -15,9 +15,10 @@ const FinanceInput = ({ data, session }) => {
       <main className="h-screen my-auto flex-center">
         <div className="flex-col py-10 bg-white max-sm:w-full md:px-20 flex-center ">
           <LogoutBtn className="mb-2 " />
-          <div className="mb-5 text-4xl font-bold md:text-6xl text-blue">
+          <h1 className="mb-5 text-4xl font-bold md:text-6xl text-blue">
             Финансов отчет
-          </div>
+          </h1>
+
           <div className="grid grid-cols-1 mt-10 text-2xl md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-5">
             <button
               className="flex items-center justify-center w-full py-4 font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 sm:w-auto px-7 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -54,6 +55,15 @@ const FinanceInput = ({ data, session }) => {
                 <Image src="/icons/business-report.png" alt="month" fill />
               </div>
               Дневен отчет
+            </button>
+            <button
+              className="flex items-center justify-center w-full px-5 py-4 font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={() => router.push("/account/budget")}
+            >
+              <div className="relative w-8 h-8 mr-2 sm:h-14 sm:w-14">
+                <Image src="/icons/budget.png" alt="month" fill />
+              </div>
+              Бюджет
             </button>
             {/* <button
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
