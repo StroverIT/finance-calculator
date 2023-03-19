@@ -17,7 +17,11 @@ const FinanceInput = ({ data, session }) => {
       income.reduce((x, y) => x + Number(y.price), 0) + data.budget;
     const totalExpense = expense.reduce((x, y) => x + Number(y.price), 0);
 
-    if (totalIncome && totalExpense) {
+    const cond1 = Number.isNaN(totalIncome);
+    const cond2 = Number.isNaN(totalExpense);
+
+    if (!cond1 && !cond2) {
+      console.log("vliza");
       setTotalSum(totalIncome - totalExpense);
     }
   }, [data]);
@@ -42,7 +46,7 @@ const FinanceInput = ({ data, session }) => {
             </Link>
           </div>
           <div className="mb-10 text-3xl font-bold sm:text-5xl ">Бюджет</div>
-          <div className=" ">
+          <div className="">
             <FinanceCalc
               text={"Добави пари"}
               totalSums={[]}

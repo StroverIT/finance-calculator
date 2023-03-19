@@ -29,7 +29,11 @@ const FinanceInput = ({ data, session }) => {
       (x, y) => x + Number(y.price),
       0
     );
-    if (totalIncome && totalExpense) {
+
+    const cond1 = Number.isNaN(totalIncome);
+    const cond2 = Number.isNaN(totalExpense);
+
+    if (!cond1 && !cond2) {
       setTotalSum(totalIncome - totalExpense);
     }
   }, [data]);
