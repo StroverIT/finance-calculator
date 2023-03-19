@@ -16,10 +16,13 @@ const FinanceInput = ({ data, session }) => {
   const [totalSum, setTotalSum] = useState(0);
   const [dateInput, setDateInput] = useState(getDate());
 
-  // const [data, setData] = useState([]);
-
   const financeData = data.report;
   const typeFinance = "report";
+
+  const [finance, setData] = useState({
+    income: financeData.income.totalSums,
+    expense: financeData.expense.totalSums,
+  });
 
   useEffect(() => {
     const totalIncome =
@@ -37,22 +40,22 @@ const FinanceInput = ({ data, session }) => {
       setTotalSum(totalIncome - totalExpense);
     }
   }, [data]);
-  // useEffect(() => {
-  //   async function getingData() {
-  //     const res = await fetch("/api/reportGet", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         date: dateInput,
-  //       }),
-  //     });
-  //     const resData = await res.json();
-  //     setData(resData.data);
-  //   }
-  //   getingData();
-  // }, [dateInput, route]);
+  useEffect(() => {
+    async function getingData() {
+      const res = await fetch("/api/reportGet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: dateInput,
+        }),
+      });
+      const resData = await res.json();
+      setData(resData.data);
+    }
+    getingData();
+  }, [dateInput, route]);
 
   return (
     <>
@@ -84,7 +87,7 @@ const FinanceInput = ({ data, session }) => {
           <div className="grid justify-center mt-10 gap-x-28 md:grid-cols-2">
             <FinanceCalc
               text="Приход:"
-              totalSums={financeData.income.totalSums}
+              totalSums={finance.income}
               date={dateInput}
               type="income"
               typeFinance={typeFinance}
@@ -94,7 +97,7 @@ const FinanceInput = ({ data, session }) => {
             />
             <FinanceCalc
               text="Разход:"
-              totalSums={financeData.expense.totalSums}
+              totalSums={finance.expense}
               date={dateInput}
               session={session}
               type="expense"
@@ -121,13 +124,20 @@ export async function getServerSideProps(context) {
     };
   }
   let data = {};
-
+  let daily = {
+    income: [],
+    expenses: [],
+  };
   try {
     await connectMongo();
 
     const user = await User.findOne({ email: session.user.email }).populate(
       "report"
     );
+    // const currentDate = getDate();
+    // user.report.expense.totalSums.forEach((data) => {});
+    // console.log(daily);
+
     data = user;
   } catch (e) {
     console.log(e);

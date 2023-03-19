@@ -20,13 +20,23 @@ async function handler(req, res) {
 
     const token = await getTokenFn(req);
     const user = await User.findOne({ email: token.email }).populate("report");
-    const reports = [];
+    const reports = {
+      income: [],
+      expense: [],
+    };
 
-    user.report.totalSums.forEach((report) => {
+    user.report.income.totalSums.forEach((report) => {
       if (report.date == date) {
-        reports.push(report);
+        reports.income.push(report);
       }
     });
+
+    user.report.expense.totalSums.forEach((report) => {
+      if (report.date == date) {
+        reports.expense.push(report);
+      }
+    });
+
     //Send error response if duplicate user is found
     return res.status(201).json({
       data: reports,
