@@ -12,7 +12,6 @@ async function handler(req, res) {
   if (req.method === "POST") {
     //Getting email and password from body
     const { email } = req.body;
-    console.log(email);
     //Connect with database
     await connectMongo();
     //Check existing

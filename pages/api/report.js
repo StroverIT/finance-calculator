@@ -14,15 +14,12 @@ async function handler(req, res) {
     if (req.method === "POST") {
       //Getting email and password from body
       const { price, reason, type, typeFinance, date } = req.body;
-      console.log(date);
       //Connect with database
       await connectMongo();
       //Check existing
       const token = await getTokenFn(req);
 
       const user = await User.findOne({ email: token.email });
-
-      console.log(user);
 
       let reportId = user.report;
 

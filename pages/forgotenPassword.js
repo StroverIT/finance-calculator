@@ -26,7 +26,6 @@ export default function Home() {
       }),
     });
     const resData = await res.json();
-    console.log(resData);
     if (resData.error) {
       toastError(resData.error);
     }

@@ -27,7 +27,6 @@ const DeptCalc = ({ text, totalSums, session }) => {
       }),
     });
     const resData = await res.json();
-    console.log(resData);
 
     if (resData.message) {
       toastSuccess(resData.message);
@@ -53,9 +52,7 @@ const DeptCalc = ({ text, totalSums, session }) => {
     }
     router.replace(router.asPath);
   };
-  useEffect(() => {
-    console.log(dateInput);
-  }, [dateInput]);
+
   return (
     <div>
       <div className="grid md:grid-cols-2 gap-x-5 ">

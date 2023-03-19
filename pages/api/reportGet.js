@@ -27,7 +27,6 @@ async function handler(req, res) {
         reports.push(report);
       }
     });
-    console.log(reports);
     //Send error response if duplicate user is found
     return res.status(201).json({
       data: reports,
