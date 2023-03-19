@@ -29,7 +29,9 @@ const FinanceInput = ({ data, session }) => {
       (x, y) => x + Number(y.price),
       0
     );
-    setTotalSum(totalIncome - totalExpense);
+    if (totalIncome && totalExpense) {
+      setTotalSum(totalIncome - totalExpense);
+    }
   }, [data]);
   // useEffect(() => {
   //   async function getingData() {

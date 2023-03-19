@@ -17,7 +17,9 @@ const FinanceInput = ({ data, session }) => {
       income.reduce((x, y) => x + Number(y.price), 0) + data.budget;
     const totalExpense = expense.reduce((x, y) => x + Number(y.price), 0);
 
-    setTotalSum(totalIncome - totalExpense);
+    if (totalIncome && totalExpense) {
+      setTotalSum(totalIncome - totalExpense);
+    }
   }, [data]);
 
   return (
@@ -52,7 +54,7 @@ const FinanceInput = ({ data, session }) => {
           <div className="mt-10 text-2xl text-center">
             Сегашни пари:
             <span className="pl-1 font-semibold">
-              {totalSum.toFixed(2) || 0}
+              {totalSum?.toFixed(2) || 0}
             </span>
           </div>
         </div>
