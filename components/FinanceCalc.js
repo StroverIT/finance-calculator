@@ -105,7 +105,9 @@ const FinanceCalc = ({
         <ColorInput
           labelName="Сума:"
           input={priceInput}
-          setInput={(e) => setPriceInput(e.target.value)}
+          setInput={(e) =>
+            setPriceInput(!isNaN(Number(e.target.value)) ? e.target.value : priceInput)
+          }
           isBtn={false}
         />
         {type != "budget" && (
