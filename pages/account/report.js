@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import FinanceCalc from "../../components/FinanceCalc";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { getSession } from "next-auth/react";
@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 
 const FinanceInput = ({ data, session }) => {
   const route = useRouter();
-  const [totalSum, setTotalSum] = useState(0);
+
   const [dateInput, setDateInput] = useState(getDate());
 
   const financeData = data.report;
@@ -24,10 +24,11 @@ const FinanceInput = ({ data, session }) => {
     expense: financeData.expense.totalSums,
   });
 
-  useEffect(() => {
+  const totalSum = useMemo(() => {
     const totalIncome =
-      financeData.income.totalSums.reduce((x, y) => x + Number(y.price), 0) +
-      data.budget;
+      financeData.income.totalSums.reduce((x, y) => x + Number(y.price), 0) 
+      // + data.budget || 0;
+
     const totalExpense = financeData.expense.totalSums.reduce(
       (x, y) => x + Number(y.price),
       0
@@ -37,9 +38,10 @@ const FinanceInput = ({ data, session }) => {
     const cond2 = Number.isNaN(totalExpense);
 
     if (!cond1 && !cond2) {
-      setTotalSum(totalIncome - totalExpense);
-    }
-  }, [data]);
+      return totalIncome - totalExpense;
+    } else return 0;
+  }, [data?.report?.expense?.totalSums, data?.report?.income?.totalSums]);
+
   useEffect(() => {
     async function getingData() {
       const res = await fetch("/api/reportGet", {
@@ -81,7 +83,7 @@ const FinanceInput = ({ data, session }) => {
           </div>
           <DatePickerComp setDateInput={setDateInput} />
           <div className="mt-10 text-2xl text-center">
-            Дневна сметка:{" "}
+            Дневна сметка:
             <span className="pl-1 font-semibold">{totalSum.toFixed(2)}</span>
           </div>
           <div className="grid justify-center mt-10 gap-x-28 md:grid-cols-2">
