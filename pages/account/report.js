@@ -15,7 +15,6 @@ const FinanceInput = ({ data, session }) => {
   const route = useRouter();
 
   const [dateInput, setDateInput] = useState(getDate());
-
   const financeData = data.report;
   const typeFinance = "report";
 
@@ -26,10 +25,10 @@ const FinanceInput = ({ data, session }) => {
 
   const totalSum = useMemo(() => {
     const totalIncome =
-      financeData.income.totalSums.reduce((x, y) => x + Number(y.price), 0) 
+    finance.income?.reduce((x, y) => x + Number(y.price), 0) 
       // + data.budget || 0;
 
-    const totalExpense = financeData.expense.totalSums.reduce(
+    const totalExpense = finance.expense?.reduce(
       (x, y) => x + Number(y.price),
       0
     );
@@ -40,7 +39,7 @@ const FinanceInput = ({ data, session }) => {
     if (!cond1 && !cond2) {
       return totalIncome - totalExpense;
     } else return 0;
-  }, [data?.report?.expense?.totalSums, data?.report?.income?.totalSums]);
+  }, [data?.report?.expense?.totalSums, data?.report?.income?.totalSums, finance]);
 
   useEffect(() => {
     async function getingData() {
